@@ -1,47 +1,41 @@
 import ContactItem from 'components/ContactItem';
-import PropTypes from 'prop-types';
+import Loader from 'components/Loader/Loader';
 import { useSelector } from 'react-redux';
+import { useGetContactsQuery } from 'redux/operations';
 import css from './ContactList.module.css';
 
-const filterContacts = (items, value) => {
-return items.filter(contact =>
-  contact.name.toLowerCase().includes(value.toLowerCase())
-);
+const ContactList = () => {
+  const filter = useSelector(state => state.contacts.filter);
+  const {data, isLoading} = useGetContactsQuery();
+
+  const filterContacts = () => {
+  
+return (data && data.filter(contact =>
+  contact.name.toLowerCase().includes(filter.toLowerCase()))
+  );
 };
 
-const ContactList = () => {
-  const items = useSelector(state => state.contacts.items);
-  const value = useSelector(state => state.contacts.filter);
-  const contacts = filterContacts(items, value);
-
-return (
-  <ul className={css.contacts}>
-    { contacts.length
-       ? (
-            contacts.map(({id, name, number}) =>  (
-      
-      <ContactItem
-        key={id}
-        id={id}
-        name={name}
-        number={number}
-      />
-          ))
-        )
-       : (<p className={css.contacts__message}>Your phonebook is empty !!!</p>)
-      }
-  </ul>)
-}
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }),
-  ),
-
+  return (
+    <>
+      {isLoading && <Loader />}
+        <ul className={css.contacts}>
+          { data && !isLoading && filterContacts().length > 0
+          ? (
+                filterContacts().map(({id, name, phone}) =>  (
+          
+          <ContactItem
+            key={id}
+            id={id}
+            name={name}
+            phone={phone}
+          />
+              ))
+            )
+          : (<p className={css.contacts__message}>Your phonebook is empty !!!</p>)
+          }
+        </ul>
+    </>
+  )
 }
 
 export default ContactList;

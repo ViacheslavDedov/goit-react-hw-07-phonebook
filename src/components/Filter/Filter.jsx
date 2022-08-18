@@ -1,11 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { actions } from 'redux/actions';
+import { changeFilter } from 'redux/actions';
 import css from './Filter.module.css';
 
-const Filter = () => {
+const Filter = () => {  
+  
   const dispatch = useDispatch();
   const onChange = evt => {
-    dispatch(actions.chahgeFilter(evt.currentTarget.value));
+    dispatch(changeFilter(evt.currentTarget.value));
   };
 
   return (
