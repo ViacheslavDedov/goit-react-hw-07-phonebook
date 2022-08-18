@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { toast } from 'react-toastify';
 
 export const contactApi = createApi({
   reducerPath: 'contactApi',
@@ -23,6 +24,7 @@ export const contactApi = createApi({
       query: id => ({
         url: `/contacts/${id}`,
         method: 'DELETE',
+        body: toast.warning(`Contact is deleted!`, {theme: "colored"}),
       }),
       invalidatesTags: [{ type: 'Contacts' }],
     }),

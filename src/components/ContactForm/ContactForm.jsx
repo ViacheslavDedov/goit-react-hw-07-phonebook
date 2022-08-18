@@ -30,17 +30,17 @@ const handleSubmit = async evt => {
 
     if (data.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {
     resetForm();
-        return toast.error(`${name} is already in contacts`, {theme: "colored"});
+        return toast.error(`${name} is already in contacts!`, {theme: "colored"});
     }
 
     if (data.some(contact => contact.phone === phone)) {
     resetForm();
-        return toast.error(`${phone} is already in contacts`, {theme: "colored"});
+        return toast.error(`${phone} is already in contacts!`, {theme: "colored"});
     }
     
     if (name && phone) {
         await addContacts({ name: name, phone: phone });
-        toast.success(`${name} added to contacts`, {theme: "colored"});
+        toast.success(`${name} added to contacts!`, {theme: "colored"});
     resetForm();
     }
   };
